@@ -2,20 +2,38 @@ from flask import Flask
 from utils import load_candidates, get_all, get_by_skill, get_by_pk
 
 
-filename = "candidates.json"
+adress_file = "candidates.json"
 
-candidates = load_candidates(filename)
+
+data_candidates = load_candidates(adress_file)
+
+
+candidates = get_all(data_candidates)
+
 
 app = Flask(__name__)
 
 
 @app.route("/")
-def page_home(file=candidates):
-    for candidate in file:
-        return f"{candidate}"
+def page_home():
+    home = str()
+    for k, v in candidates.items():
+        home += f"<pre>{v[0]} -\n{k}\n{v[1][0:]}\n\n<pre>"
+    return f"{home}"
+
+
+@app.route("/candidates/<int:pk>")
+def page_candidates(pk):
+    candidate, url = get_by_pk(pk, data_candidates)
+    return f"<img src='({url})'>\n<pre>{candidate['name']}\n{pk}\n{candidate['skills']}<pre>"
+
+
+@app.route("/skills/<skill>")
+def page_skills(skill):
+    return get_by_skill(skill, candidates)
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=0)
+    app.run(host="127.0.0.1", port=5)
 
 

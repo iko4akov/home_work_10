@@ -1,42 +1,32 @@
 import json
 
 
-def load_candidates(file="candidates.json"):
+def load_candidates(file):
     """ Load json file format in list"""
     with open(file, encoding="utf-8") as f:
-        file = json.load(f)
-    return file
+        data_candidates = json.load(f)
+    return data_candidates
 
 
-def get_all(filename=load_candidates()):
-    """return names candidates"""
-    candidates = []
+def get_all(filename):
+    """return all candidates: name: [pk, skills]"""
+    candidates = dict()
     for i in range(len(filename)):
-        candidates.append(filename[i]["name"])
+        candidates[filename[i]['pk']] = [filename[i]["name"], filename[i]["skills"]]
     return candidates
 
 
-def get_by_pk(pk, candidates=get_all()):
+def get_by_pk(pk, data_candidates):
     """return name candidate of pk"""
-    if 0 < pk <= len(candidates):
-        candidate = candidates[pk-1]
-        return candidate
-    else:
-        return "pk nothing"
+    candidate = data_candidates[pk]
+    url = f'{data_candidates[pk]["picture"]}'
+    return candidate, str(url)
 
 
-def get_by_skill(skill_name, file=load_candidates()):
+def get_by_skill(skill_name, candidates):
     """return names candidate of skills"""
-    need_name = []
-    for i in range(len(file)):
-        skills_lower = file[i]["skills"].lower().split(", ")
-        if skill_name in skills_lower:
-            need_name.append(file[i]["name"])
-        else:
-            continue
-    return ", ".join(need_name)
-
-# filename = load_candidates()
-# candidates = get_all(filename)
-# # print(get_by_pk(4))
-# print(get_by_skill("go"))
+    valid_candidates = str()
+    for k, v in candidates.items():
+        if skill_name in v[1]:
+            valid_candidates += f"<pre>{v[0]} -\n{k}\n{v[1][0:]}\n\n<pre>"
+    return valid_candidates
