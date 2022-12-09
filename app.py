@@ -1,2 +1,0 @@
-import candidates.json
-
