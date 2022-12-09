@@ -18,14 +18,14 @@ app = Flask(__name__)
 def page_home():
     home = str()
     for k, v in candidates.items():
-        home += f"<pre>\n{v[0]} -\n{k}\n{v[1][0:]}\n<pre>\n"
+        home += f"<pre>\n{v[0]} -\n{k}\n{v[1][0:]}\n</pre>\n"
     return f"{home}"
 
 
 @app.route("/candidates/<int:pk>")
 def page_candidates(pk):
     candidate, url = get_by_pk(pk, data_candidates)
-    return f"<img src='{url}'>\n<pre>\n{candidate['name']}\n{pk}\n{candidate['skills']}\n<pre>"
+    return f"<img src='{url}'>\n<pre>\n{candidate['name']}\n{pk}\n{candidate['skills']}\n</pre>"
 
 
 @app.route("/skills/<skill>")

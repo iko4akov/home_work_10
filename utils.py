@@ -28,5 +28,5 @@ def get_by_skill(skill_name, candidates):
     valid_candidates = str()
     for k, v in candidates.items():
         if skill_name in v[1]:
-            valid_candidates += f"<pre>\n{v[0]} -\n{k}\n{v[1][0:]}\n<pre>\n"
+            valid_candidates += f"<pre>\n{v[0]} -\n{k}\n{v[1][0:]}\n</pre>\n"
     return valid_candidates
