@@ -1,22 +1,19 @@
 from flask import Flask
-from utils import load_candidates, get_all, get_by_skill, get_by_pk
 
+from utils import load_candidates, get_all, get_by_skill, get_by_pk
 
 adress_file = "candidates.json"
 
-
 data_candidates = load_candidates(adress_file)
 
-
 candidates = get_all(data_candidates)
-
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def page_home():
-    home = str()
+    home = ''
     for k, v in candidates.items():
         home += f"<pre>\n{v[0]} -\n{k}\n{v[1][0:]}\n</pre>\n"
     return f"{home}"
@@ -34,6 +31,4 @@ def page_skills(skill):
 
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=5)
-
-
+    app.run(host="127.0.0.1", port=5000)
